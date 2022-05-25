@@ -1,0 +1,6 @@
+.character {
+  width: var(--tile-size);
+  height: var(--tile-size);
+  position: absolute;
+  transition: top var(--movement-speed) ease, left var(--movement-speed) ease;
+}

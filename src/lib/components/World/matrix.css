@@ -1,0 +1,16 @@
+#world {
+  width: 100vw;
+  width: 100dvw;
+  height: 100vh;
+  height: 100dvh;
+  display: grid;
+  overflow: hidden;
+  grid-template-columns: repeat(auto-fill, var(--tile-size));
+  grid-template-rows: repeat(auto-fill, var(--tile-size));
+}
+
+#world > div {
+  overflow: hidden;
+  font-size: 1rem;
+  border: solid 0.1rem #000;
+}
