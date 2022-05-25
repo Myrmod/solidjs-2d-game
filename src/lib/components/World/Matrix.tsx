@@ -7,7 +7,7 @@ export enum WorldTile {
   stone,
 }
 export type WorldMatrix = Array<
-  Array<{ ground: WorldTile; blocked?: boolean }>
+  Array<{ ground: WorldTile; blocked?: boolean; action?: () => unknown }>
 >;
 export const [getMatrix, setMatrix] = createSignal<WorldMatrix>();
 

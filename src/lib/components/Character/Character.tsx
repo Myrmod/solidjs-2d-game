@@ -1,5 +1,6 @@
 import Sprite from "$assets/characters.png?url";
 import { createEffect, createSignal } from "solid-js";
+import { getMatrix } from "../World/Matrix";
 import "./character.css";
 
 export enum Status {
@@ -25,6 +26,37 @@ export enum Characters {
 }
 
 const spriteImageSize = 32;
+
+export function getSideObject(object: {
+  position: [number, number];
+  direction: Direction;
+}) {
+  const matrix = getMatrix();
+
+  if (!matrix) return null;
+
+  let offsetX = 0;
+  let offsetY = 0;
+  switch (object.direction) {
+    case Direction.up:
+      offsetY = -1;
+      break;
+    case Direction.down:
+      offsetY = 1;
+      break;
+    case Direction.left:
+      offsetX = -1;
+      break;
+    case Direction.right:
+      offsetX = 1;
+      break;
+
+    default:
+      break;
+  }
+
+  return matrix[object.position[0] + offsetX][object.position[1] + offsetY];
+}
 
 export default function Character(props: {
   title?: string;

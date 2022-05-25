@@ -1,6 +1,7 @@
 import Character, {
   Characters,
   Direction,
+  getSideObject,
   Status,
 } from "$lib/components/Character/Character";
 import Matrix, {
@@ -17,6 +18,9 @@ const worldMatrix = Array.from(Array(20).keys()).map((_, x) =>
       return {
         ground: WorldTile.dirt,
         blocked: true,
+        action: () => {
+          alert("Hi Mom!");
+        },
       };
     }
 
@@ -34,7 +38,7 @@ export default function App() {
   const [getDirection, setDirection] = createSignal<Direction>(Direction.down);
 
   let finishedMoving: NodeJS.Timeout;
-  function handleCharacterMovement(e: KeyboardEvent) {
+  function handleKeyboardInput(e: KeyboardEvent) {
     e.preventDefault();
     if (getMoving()) return;
     let newPosition: [number, number];
@@ -52,6 +56,12 @@ export default function App() {
 
         setCharacterPosition(newPosition);
 
+        // enable movement animation
+        setMoving(true);
+        clearTimeout(finishedMoving);
+        finishedMoving = setTimeout(() => {
+          setMoving(false);
+        }, 200);
         break;
       case "ArrowLeft":
         setDirection(Direction.left);
@@ -66,6 +76,12 @@ export default function App() {
 
         setCharacterPosition(newPosition);
 
+        // enable movement animation
+        setMoving(true);
+        clearTimeout(finishedMoving);
+        finishedMoving = setTimeout(() => {
+          setMoving(false);
+        }, 200);
         break;
       case "ArrowDown":
         setDirection(Direction.down);
@@ -78,6 +94,12 @@ export default function App() {
 
         setCharacterPosition(newPosition);
 
+        // enable movement animation
+        setMoving(true);
+        clearTimeout(finishedMoving);
+        finishedMoving = setTimeout(() => {
+          setMoving(false);
+        }, 200);
         break;
       case "ArrowRight":
         setDirection(Direction.right);
@@ -90,24 +112,33 @@ export default function App() {
 
         setCharacterPosition(newPosition);
 
+        // enable movement animation
+        setMoving(true);
+        clearTimeout(finishedMoving);
+        finishedMoving = setTimeout(() => {
+          setMoving(false);
+        }, 200);
+        break;
+      case " ":
+        const object = getSideObject({
+          position: getCharacterPosition(),
+          direction: getDirection(),
+        });
+        object?.action?.();
+
         break;
 
       default:
+        // console.log(e.key);
+
         break;
     }
-
-    // enable movement animation
-    setMoving(true);
-    clearTimeout(finishedMoving);
-    finishedMoving = setTimeout(() => {
-      setMoving(false);
-    }, 200);
   }
   onMount(() => {
-    window.addEventListener("keydown", handleCharacterMovement);
+    window.addEventListener("keydown", handleKeyboardInput);
   });
   onCleanup(() => {
-    window.removeEventListener("keydown", handleCharacterMovement);
+    window.removeEventListener("keydown", handleKeyboardInput);
   });
 
   return (
